@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.biostime.bp.authorization.repository.resource.BpaCatalogueMapper">
+  <resultMap id="BaseResultMap" type="com.biostime.bp.authorization.domain.resource.BpaCatalogue">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="app_code" jdbcType="VARCHAR" property="appCode" />
+    <result column="icon_url" jdbcType="VARCHAR" property="iconUrl" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="weight" jdbcType="INTEGER" property="weight" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  
+   
+  <resultMap id="MenuBoResultMap" type="com.biostime.bp.authorization.bean.menu.MenuBo">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="app_code" jdbcType="VARCHAR" property="appCode" />
+    <result column="icon_url" jdbcType="VARCHAR" property="iconUrl" />
+    <result column="name_translate" jdbcType="VARCHAR" property="name" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="weight" jdbcType="INTEGER" property="weight" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+
+  </resultMap>
+  
+   <select id="queryUserMenuInfoByAppCodeAndRole" parameterType="map"  resultMap="MenuBoResultMap"> 
+		SELECT
+		  A.*,IFNULL(E.value,A.name) AS name_translate 
+		FROM
+		  bpa_catalogue A
+		  JOIN bpa_permission_unify_rs B
+		    ON B.type = 1
+		    AND A.id = B.relation_id 
+		  JOIN bpa_permission C
+		    ON C.id = B.permission_id
+		    AND C.type = 1 
+		  JOIN bpa_role_permission_rs D
+		    ON D.permission_id = C.id
+		  LEFT JOIN bpa_language E 
+		    ON E.data_type=1 AND E.relation_id = A.id AND E.language_type = #{languageType}
+		WHERE A.status = 1
+		  AND A.app_code = #{appCode} 
+		  AND C.app_code = #{appCode}
+		  AND D.role_id IN 
+		  <foreach collection="userRoles" item="role"  open="(" close=")" separator=",">
+		    		#{role.id}
+		  </foreach>
+		ORDER by A.weight asc,A.create_time asc		  
+   
+   </select>
+</mapper>

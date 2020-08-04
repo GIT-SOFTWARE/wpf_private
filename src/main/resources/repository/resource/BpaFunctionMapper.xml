@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.biostime.bp.authorization.repository.resource.BpaFunctionMapper">
+  <resultMap id="BaseResultMap" type="com.biostime.bp.authorization.domain.resource.BpaFunction">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="app_code" jdbcType="VARCHAR" property="appCode" />
+    <result column="function_code" jdbcType="VARCHAR" property="functionCode" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="group" jdbcType="VARCHAR" property="group" />
+    <result column="weight" jdbcType="INTEGER" property="weight" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="attribute" jdbcType="VARCHAR" property="attribute" />
+    <result column="relation_id" jdbcType="BIGINT" property="relationId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  
+  <resultMap id="BaseResultPermissionButtonVo" type="com.biostime.bp.authorization.bean.function.FunctionPermissionVo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="app_code" jdbcType="VARCHAR" property="appCode" />
+    <result column="function_code" jdbcType="VARCHAR" property="functionCode" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="group" jdbcType="VARCHAR" property="group" />
+    <result column="weight" jdbcType="INTEGER" property="weight" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="attribute" jdbcType="VARCHAR" property="attribute" />
+    <result column="relation_id" jdbcType="BIGINT" property="relationId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  
+ 
+  <select id="queryFunctionPermissionByRelationIdAndRole" parameterType="map"  resultMap="BaseResultPermissionButtonVo">
+		SELECT
+		  DISTINCT A.*
+		FROM
+		  bpa_function A
+		  JOIN bpa_permission_unify_rs B
+		    ON A.id = B.relation_id
+		    AND B.type = 2
+		  JOIN bpa_permission C
+		    ON C.id = B.permission_id
+		    AND C.type = 2
+		  JOIN bpa_role_permission_rs D
+		    ON C.id = D.permission_id
+		WHERE A.app_code = #{appCode}
+		  AND A.status = 1 
+		  AND C.app_code = #{appCode}
+		  AND A.relation_id = #{relationId}
+  		  AND D.role_id IN 
+		  <foreach collection="roles" item="role"  open="(" close=")" separator=",">
+		    		#{role.id}
+		  </foreach>
+  </select>
+</mapper>

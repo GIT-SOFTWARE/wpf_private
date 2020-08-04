@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.biostime.bp.authorization.repository.role.BpaRoleMapper">
+  <resultMap id="BaseResultMap" type="com.biostime.bp.authorization.domain.role.BpaRole">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="app_code" jdbcType="VARCHAR" property="appCode" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="weight" jdbcType="INTEGER" property="weight" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+   <select id="queryUserRolesByUidAndAppCode" parameterType="map" resultMap="BaseResultMap">
+			SELECT
+			  A.*
+			FROM
+			  bpa_role A
+			JOIN bpa_user_role_rs B
+			ON A.id = B.role_id
+			where B.uid = #{uid} and A.status = 1
+			    AND A.app_code=#{appCode}
+   </select>
+</mapper>

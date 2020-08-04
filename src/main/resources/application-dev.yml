@@ -1,0 +1,46 @@
+#=================================================================================
+#应用端口配置
+server:
+  port: 30150
+
+# spring 组件相关设置
+
+spring:
+  datasource:
+    url: jdbc:mysql://10.50.115.114:16052/hh_anti_fake_auth_db?rewriteBatchedStatements=true&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&autoReconnect=true&allowMultiQueries=true&useSSL=false
+    username: hh_anti_fake
+    password: hh_anti_fake123
+  redis: 
+      host: test02-redis.biostime.it
+      port: 6379
+      password: 
+      database: 0
+      pool: 
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+        max-wait: -1
+
+#本系统配置
+hh: 
+  bp: 
+     authorization:
+       userPasswordAllowErrorCount: 5
+
+# 21600000 6小时过期
+jwt: 
+  client: 
+    is-support-authfail-cors: true
+    filter-order: 0
+    filter-url: /*
+    ignore-uri: /static/,/templates/,/login,/user/applyRePwd,/user/rePwd,/verify,/oauth/token,/user/isRePwdEffective
+    key: 0b38402244204174b202e9259562dde0
+  server: 
+     key: 0b38402244204174b202e9259562dde0
+     ttlMills: 21600000
+     jwtId: jwt
+     issuer: bp.authorization
+     
+
+repwdEmail:
+  webSite: http://test-01.biostime.us/security-code/

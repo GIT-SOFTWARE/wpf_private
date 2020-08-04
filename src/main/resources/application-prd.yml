@@ -1,0 +1,46 @@
+#=================================================================================
+#应用端口配置
+server:
+  port: 30150
+
+# spring 组件相关设置
+
+spring:
+  datasource:
+    url: jdbc:mysql://rm-j6cg6h6lu46jgwadi.mysql.rds.aliyuncs.com:3306/hh-bp-authorization?rewriteBatchedStatements=true&useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&autoReconnect=true&allowMultiQueries=true&useSSL=false
+    username: hhbpauth
+    password: 1rw64hQRKTy5
+  redis: 
+      host: r-j6cfd15e5f159b54.redis.rds.aliyuncs.com
+      port: 6379
+      password: Wodingnigefei987
+      database: 0
+      pool: 
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+        max-wait: -1
+
+#本系统配置
+hh: 
+  bp: 
+     authorization:
+       userPasswordAllowErrorCount: 5
+
+
+jwt: 
+  client: 
+    is-support-authfail-cors: true
+    filter-order: 0
+    filter-url: /*
+    ignore-uri: /static/,/templates/,/login,/user/applyRePwd,/user/rePwd,/verify,/oauth/token,/user/isRePwdEffective
+    key: 0cd8e0cc780f436ab24bdcc5096d7f53
+  server: 
+     key: 0cd8e0cc780f436ab24bdcc5096d7f53
+     ttlMills: 21600000
+     jwtId: jwt
+     issuer: bp.authorization
+     
+
+repwdEmail:
+  webSite: https://gas.hhsys.com.cn/security-code/

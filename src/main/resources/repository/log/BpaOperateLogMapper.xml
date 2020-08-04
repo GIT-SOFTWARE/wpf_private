@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.biostime.bp.authorization.repository.log.BpaOperateLogMapper">
+  <resultMap id="BaseResultMap" type="com.biostime.bp.authorization.domain.log.BpaOperateLog">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="operate_uid" jdbcType="BIGINT" property="operateUid" />
+    <result column="operate_content" jdbcType="VARCHAR" property="operateContent" />
+    <result column="operate_time" jdbcType="TIMESTAMP" property="operateTime" />
+    <result column="operate_type" jdbcType="VARCHAR" property="operateType" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="to_operate_uid" jdbcType="BIGINT" property="toOperateUid" />
+  </resultMap>
+   <select id="queryLastResetPasswordOrLoginSuccessOperateLogByUid" parameterType="map" resultMap="BaseResultMap">
+	    SELECT
+	      * 
+	    FROM bpa_operate_log
+	    WHERE operate_time BETWEEN #{startTime} AND #{endTime}
+		      AND (operate_uid=#{uid} AND operate_type in("1","2","7")) 
+		      OR (to_operate_uid=#{uid} AND operate_type in ("4","6"))
+		       order by operate_time desc limit 1
+  </select>
+</mapper>

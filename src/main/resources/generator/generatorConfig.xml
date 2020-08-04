@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<!-- 详细的参数配置参考https://blog.csdn.net/isea533/article/details/42102297 -->
+<!-- 生成表命令 maven mybatis-generator:generate -->
+<generatorConfiguration>
+    <!--指定一组对象的环境-->
+    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+            <property name="caseSensitive" value="true"/>
+        </plugin>
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://10.50.115.114:16052/hh_anti_fake_auth_db"
+                        userId="hh_anti_fake"
+                        password="hh_anti_fake123">
+        </jdbcConnection>
+
+        <javaModelGenerator targetPackage="com.biostime.bp.authorization.domain.log"
+                            targetProject="src/main/java"/>
+
+        <sqlMapGenerator targetPackage="repository.log"
+                         targetProject="src/main/resources"/>
+
+        <javaClientGenerator targetPackage="com.biostime.bp.authorization.repository.log"
+                             targetProject="src/main/java"
+                             type="XMLMAPPER"/>
+
+        <!-- 需要生成的表 -mybatis-generator:generate -->
+         <table tableName="bpa_operate_log">
+		<generatedKey column="id" sqlStatement="JDBC" />
+	</table>   
+    <!--      <table tableName="bpa_operate_log">
+		<generatedKey column="id" sqlStatement="JDBC" />
+	</table>  -->
+
+<!--       	<table tableName="afa_user_role_rs">
+		<generatedKey column="id" sqlStatement="JDBC" />
+	</table> -->
+ <!--  	<table tableName="bpa_user">
+		<generatedKey column="uid" sqlStatement="JDBC" />
+	</table>
+	<table tableName="bpa_user_attr">
+		<generatedKey column="id" sqlStatement="JDBC" />
+	</table>   -->
+ 	<!-- <table tableName="bpa_role">
+		<generatedKey column="id" sqlStatement="JDBC" />
+	</table> 
+   	<table tableName="bpa_user_role_rs">
+		<generatedKey column="id" sqlStatement="JDBC" />
+	</table>
+	<table tableName="bpa_role_permission_rs">
+		<generatedKey column="id" sqlStatement="JDBC" />
+	</table>  -->
+	
+	<!--  --> 
+	
+<!--  	<table tableName="bpa_catalogue">
+		<generatedKey column="id" sqlStatement="JDBC" />
+	</table>
+	 <table tableName="bpa_function">
+		<generatedKey column="id" sqlStatement="JDBC" />
+	</table>
+	 <table tableName="bpa_language">
+		<generatedKey column="id" sqlStatement="JDBC" />
+	</table>
+	 <table tableName="bpa_resource">
+		<generatedKey column="id" sqlStatement="JDBC" />
+	</table>  -->
+	<!--  <table tableName="bpa_permission">
+		<generatedKey column="id" sqlStatement="JDBC" />
+	</table> 
+	<table tableName="bpa_permission_unify_rs">
+		<generatedKey column="id" sqlStatement="JDBC" />
+	</table>   -->
+<!-- 	<table tableName="afa_application">
+		<generatedKey column="id" sqlStatement="JDBC" />
+	</table> 
+	 -->
+    </context>
+</generatorConfiguration>
